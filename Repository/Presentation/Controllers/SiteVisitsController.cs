@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Repository.Application.Services;
+using Repository.Domain.VisitAggregate;
 using Repository.Presentation.Dto.Request;
 
 namespace Repository.Presentation.Controllers
@@ -8,22 +10,26 @@ namespace Repository.Presentation.Controllers
     public class SiteVisitsController : ControllerBase
     {
         private readonly ILogger<SiteVisitsController> _logger;
-
-        public SiteVisitsController(ILogger<SiteVisitsController> logger)
+        private readonly SiteVisitsService _siteVisitsService;
+        public SiteVisitsController(SiteVisitsService siteVisitsService, ILogger<SiteVisitsController> logger)
         {
+            _siteVisitsService = siteVisitsService;
             _logger = logger;
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create (Visit visit)
+        public async Task<IActionResult> Create (VisitDto visit)
         {
-            return Ok(visit);
+            var visitDomain = new Visit { IpAddress = visit.IpAddress, Url = visit.Url };
+            var result = await _siteVisitsService.CreateAsync(visitDomain);
+            return Ok(result);
         }
 
         [HttpPost("ReadAll")]
         public async Task<IActionResult> ReadAll()
         {
-            return Ok();
+            var result = await _siteVisitsService.ReadAllAsync();
+            return Ok(result);
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Repository.Infrastructure.Repository.Models;
+using Repository.Infrastructure.Repositories.Models;
 
-namespace Repository.Infrastructure.Repository
+namespace Repository.Infrastructure.Repositories
 {
     public class SiteViewAnalysisContext : DbContext
     {
         public SiteViewAnalysisContext(DbContextOptions<SiteViewAnalysisContext> options) : base(options) { }
 
-        public DbSet<Visit> Visits { get; set; }
+        public DbSet<VisitEntity> Visits { get; set; }
     }
 }

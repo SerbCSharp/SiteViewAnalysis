@@ -1,4 +1,4 @@
-﻿namespace Repository.Infrastructure.Repository.Models
+﻿namespace Repository.Domain.VisitAggregate
 {
     public class Visit
     {
