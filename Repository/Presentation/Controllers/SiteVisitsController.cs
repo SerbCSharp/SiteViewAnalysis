@@ -20,7 +20,7 @@ namespace Repository.Presentation.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> Create (VisitDto visit)
         {
-            var visitDomain = new Visit { IpAddress = visit.IpAddress, Url = visit.Url };
+            var visitDomain = new Visit { IpAddress = visit.IpAddress, Url = visit.Url, Created = DateTime.UtcNow };
             var result = await _siteVisitsService.CreateAsync(visitDomain);
             return Ok(result);
         }

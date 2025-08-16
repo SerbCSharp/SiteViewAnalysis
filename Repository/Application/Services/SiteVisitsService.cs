@@ -10,8 +10,10 @@ namespace Repository.Application.Services
         {
             _siteVisitsRepository = siteVisitsRepository;
         }
-        public Task<bool> CreateAsync(Visit visit)
+        public Task<int> CreateAsync(Visit visit)
         {
+            //var priceChangedEvent = new ProductPriceChangedIntegrationEvent(catalogItem.Id, product.Price, oldPrice);
+            //_eventBus.Send(priceChangedEvent);
             return _siteVisitsRepository.CreateAsync(visit);
         }
 
