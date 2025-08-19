@@ -15,19 +15,36 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-    container_name: Repository
+    container_name: repository
     depends_on:
       - db
   db:
-    image: mcr.microsoft.com/mssql/server:latest
+    image: postgres:latest
     ports:
-      - "1433:1433"
+      - "5432:5432"
     environment:
-      SA_PASSWORD: MyPassword123
-      ACCEPT_EULA: Y
+      POSTGRES_DB: "SiteViewAnalysisDB"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
     volumes:
-      - mssql-data:/var/opt/mssql
-    container_name: mssqlserver
+      - db_data:/var/lib/postgresql/data
+    container_name: postgresql
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:7.2
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "serbcsharp@mail.ru"
+      PGADMIN_DEFAULT_PASSWORD: "1234"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
 volumes:
-  mssql-data:
+  db_data:
+  pgadmin-data:  
   
