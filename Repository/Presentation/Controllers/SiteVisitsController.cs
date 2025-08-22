@@ -25,7 +25,7 @@ namespace Repository.Presentation.Controllers
             return Ok(result);
         }
 
-        [HttpPost("ReadAll")]
+        [HttpGet("ReadAll")]
         public async Task<IActionResult> ReadAll()
         {
             var result = await _siteVisitsService.ReadAllAsync();
