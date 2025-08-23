@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Repository.Infrastructure.Repositories.Npgsql.Migrations
+namespace Repository.Infrastructure.Repositories.MSSql.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -15,10 +15,10 @@ namespace Repository.Infrastructure.Repositories.Npgsql.Migrations
                 name: "Visits",
                 columns: table => new
                 {
-                    VisitId = table.Column<Guid>(type: "uuid", nullable: false),
-                    IpAddress = table.Column<string>(type: "text", nullable: false),
-                    Url = table.Column<string>(type: "text", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    VisitId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IpAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
