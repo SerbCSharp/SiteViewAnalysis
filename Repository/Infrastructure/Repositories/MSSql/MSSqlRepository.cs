@@ -13,11 +13,11 @@ namespace Repository.Infrastructure.Repositories.MSSql
             _siteViewAnalysisContext = siteViewAnalysisContext;
         }
 
-        public async Task<int> CreateAsync(Visit visit)
+        public async Task CreateAsync(Visit visit)
         {
             var visitEntity = new VisitEntity { IpAddress = visit.IpAddress, Url = visit.Url, Created = visit.Created };
             await _siteViewAnalysisContext.Visits.AddAsync(visitEntity);
-            return await _siteViewAnalysisContext.SaveChangesAsync();
+            await _siteViewAnalysisContext.SaveChangesAsync();
         }
 
         public async Task<List<Visit>> ReadAllAsync()
