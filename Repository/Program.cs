@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using RabbitMQ.Client;
 using Repository.Application.Interfaces;
 using Repository.Application.Services;
 using Repository.Infrastructure.EventBus.RabbitMQ;
@@ -15,23 +14,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ISiteVisitsRepository, MSSqlRepository>();
 builder.Services.AddScoped<SiteVisitsService>();
-builder.Services.AddSingleton<INotification, EventBus>();
-
-// RabbitMq
+builder.Services.AddScoped<INotification, EventBus>();
 builder.Services.Configure<RabbitMqConfiguration>(builder.Configuration.GetSection(RabbitMqConfiguration.Section));
-builder.Services.AddSingleton<IConnectionFactory>(provider =>
-{
-    var factory = new ConnectionFactory
-    {
-        HostName = builder.Configuration["RabbitMq:Host"],
-        AutomaticRecoveryEnabled = true,
-        ConsumerDispatchConcurrency = 1 // Configure the amount of concurrent consumers within one host
-    };
-    return factory;
-});
-builder.Services.AddSingleton<IConnectionProvider, ConnectionProvider>();
-builder.Services.AddSingleton<IChannelProvider, ChannelProvider>();
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>

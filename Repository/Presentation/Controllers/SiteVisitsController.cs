@@ -9,12 +9,10 @@ namespace Repository.Presentation.Controllers
     [Route("[controller]")]
     public class SiteVisitsController : ControllerBase
     {
-        private readonly ILogger<SiteVisitsController> _logger;
         private readonly SiteVisitsService _siteVisitsService;
-        public SiteVisitsController(SiteVisitsService siteVisitsService, ILogger<SiteVisitsController> logger)
+        public SiteVisitsController(SiteVisitsService siteVisitsService)
         {
             _siteVisitsService = siteVisitsService;
-            _logger = logger;
         }
 
         [HttpPost("Create")]
