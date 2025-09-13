@@ -1,3 +1,5 @@
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Running;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Application.Services;
 using Repository.Domain.VisitAggregate;
@@ -13,6 +15,7 @@ namespace Repository.Presentation.Controllers
         public SiteVisitsController(SiteVisitsService siteVisitsService)
         {
             _siteVisitsService = siteVisitsService;
+            //BenchmarkRunner.Run<SiteVisitsController>();
         }
 
         [HttpPost("Create")]
@@ -20,9 +23,10 @@ namespace Repository.Presentation.Controllers
         {
             var visitDomain = new Visit { IpAddress = visit.IpAddress, Url = visit.Url, Created = DateTime.UtcNow };
             await _siteVisitsService.CreateAsync(visitDomain);
-            return Ok();
+            return NoContent();
         }
 
+        //[Benchmark]
         [HttpGet("ReadAll")]
         public async Task<IActionResult> ReadAll()
         {
