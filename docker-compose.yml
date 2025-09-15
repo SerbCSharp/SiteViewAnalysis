@@ -1,4 +1,10 @@
 services:
+  rabbitmq:
+    image: rabbitmq:4-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    container_name: rabbitmq
   repository:
     build:
       context: .
@@ -17,8 +23,27 @@ services:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     container_name: repository
     depends_on:
-      - db
       - rabbitmq
+  notification:
+    build:
+      context: .
+      dockerfile: Notification/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+    ports:
+      - "9000:8080"
+      - "9001:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    container_name: notification
+    depends_on:
+      - rabbitmq
+      - repository
   db:
     image: mcr.microsoft.com/mssql/server:latest
     ports:
@@ -29,11 +54,6 @@ services:
     volumes:
       - db_data:/var/opt/mssql
     container_name: mssqlserver
-  rabbitmq:
-    image: rabbitmq:4-management
-    ports:
-      - 15672:15672
-    container_name: rabbitmq
 
 volumes:
   db_data:  

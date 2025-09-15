@@ -2,14 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>87f34606-8eb9-4ec2-8e00-fe37ee54dbdf</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.15.2" />
     <PackageReference Include="Microsoft.Diagnostics.Runtime" Version="3.1.512801" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />

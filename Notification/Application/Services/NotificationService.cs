@@ -1,20 +1,22 @@
-﻿using Notification.Application.Interfaces;
-using Notification.Models;
+﻿using Microsoft.Extensions.Options;
+using Telegram.Bot;
+using Telegram.Bot.Types;
 
 namespace Notification.Application.Services
 {
     public class NotificationService
     {
-        private readonly ISendMessage _sendMessage;
+        private readonly TelegramConfiguration _telegramConfiguration;
 
-        public NotificationService(ISendMessage sendMessage)
+        public NotificationService(IOptions<TelegramConfiguration> telegramConfiguration)
         {
-            _sendMessage = sendMessage;
+            _telegramConfiguration = telegramConfiguration.Value;
         }
 
-        public async Task NotificationAsync(Message message)
+        public async Task NotificationAsync(string message)
         {
-            await _sendMessage.SendAsync(message);
+            var client = new TelegramBotClient(_telegramConfiguration.BotToken);
+            await client.SendTextMessageAsync(new ChatId(_telegramConfiguration.ChatId), message);
         }
     }
 }

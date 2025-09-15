@@ -23,8 +23,7 @@ namespace Repository.Infrastructure.Repositories.MSSql
         public async Task<List<Visit>> ReadAllAsync()
         {
             var visitsEntity = await _siteViewAnalysisContext.Visits.ToListAsync();
-            return visitsEntity.Select(x => new Visit { IpAddress = x.IpAddress, Url = x.Url, 
-                Created = TimeZoneInfo.ConvertTimeFromUtc(x.Created, TimeZoneInfo.FindSystemTimeZoneById("Russian Standard Time")) }).ToList();
+            return visitsEntity.Select(x => new Visit(x.IpAddress, x.Url, x.Created)).ToList();
         }
     }
 }

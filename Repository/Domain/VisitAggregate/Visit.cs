@@ -2,8 +2,15 @@
 {
     public class Visit
     {
-        public string IpAddress { get; set; }
-        public string Url { get; set; }
-        public DateTime Created { get; set; }
+        public Visit(string ipAddress, string url, DateTime created)
+        {
+            IpAddress = ipAddress;
+            Url = url;
+            Created = created;
+        }
+
+        public string IpAddress { get; }
+        public string Url { get; }
+        public DateTime Created { get; }
     }
 }

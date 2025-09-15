@@ -20,7 +20,6 @@ namespace Repository.Infrastructure.EventBus.RabbitMQ
         {
             var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(eventDomain));
 
-
             var factory = new ConnectionFactory { HostName = _rabbitMqConfiguration.Host };
             using var connection = await factory.CreateConnectionAsync();
             using var channel = await connection.CreateChannelAsync();

@@ -1,9 +1,8 @@
-using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Application.Services;
 using Repository.Domain.VisitAggregate;
 using Repository.Presentation.Dto.Request;
+using Repository.Presentation.Dto.Response;
 
 namespace Repository.Presentation.Controllers
 {
@@ -15,22 +14,21 @@ namespace Repository.Presentation.Controllers
         public SiteVisitsController(SiteVisitsService siteVisitsService)
         {
             _siteVisitsService = siteVisitsService;
-            //BenchmarkRunner.Run<SiteVisitsController>();
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create (VisitDto visit)
+        public async Task<IActionResult> Create (CreateVisit visit)
         {
-            var visitDomain = new Visit { IpAddress = visit.IpAddress, Url = visit.Url, Created = DateTime.UtcNow };
+            var visitDomain = new Visit(visit.IpAddress, visit.Url, DateTime.UtcNow);
             await _siteVisitsService.CreateAsync(visitDomain);
             return NoContent();
         }
 
-        //[Benchmark]
         [HttpGet("ReadAll")]
         public async Task<IActionResult> ReadAll()
         {
-            var result = await _siteVisitsService.ReadAllAsync();
+            var listVisit = await _siteVisitsService.ReadAllAsync();
+            var result = listVisit.Select(x => new VisitDto(x.IpAddress, x.Url, x.Created));
             return Ok(result);
         }
     }
